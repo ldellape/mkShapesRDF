@@ -96,7 +96,7 @@ class FatJMECalculator(Module):
         jsonFile 	= self.json
         jetAlgo 	= self.jet_object
         jecTag  	= self.JEC_era
-        jerTag 		= self.JER_era
+        jerTag 		= ""
         jes_unc     = self.jes_unc
         jsonFileSmearingTool = self.jsonFileSmearingTool
         jecLevel    = "L1L2L3Res"
