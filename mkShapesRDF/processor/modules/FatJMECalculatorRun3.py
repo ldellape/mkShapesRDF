@@ -14,6 +14,7 @@ class FatJMECalculator(Module):
         jsonFile,
         JEC_era,
         JER_era,
+        jes_unc,
 		jsonFileSmearingTool,
         jet_object,
         jsonFileSubjet,
@@ -34,6 +35,8 @@ class FatJMECalculator(Module):
             FatJet JEC era to use
         JER_era : str
             FatJet JER era to use
+        JER_era : list
+            list of JER uncertainties
         jsonFileSmearingTool : str
             path to json file to smearing tool
         jet_object : str
@@ -59,6 +62,7 @@ class FatJMECalculator(Module):
         self.JEC_era_subjet = JEC_era_subjet
         self.jsonFileSmearingTool = jsonFileSmearingTool
         self.jet_object = jet_object
+        self.jes_unc = jes_unc
         self.subjet_object = subjet_object
         self.do_JER = do_JER
         self.store_nominal = store_nominal
@@ -92,7 +96,8 @@ class FatJMECalculator(Module):
         jsonFile 	= self.json
         jetAlgo 	= self.jet_object
         jecTag  	= self.JEC_era
-        jerTag 		= ""
+        jerTag 		= self.JER_era
+        jes_unc     = self.jes_unc
         jsonFileSmearingTool = self.jsonFileSmearingTool
         jecLevel    = "L1L2L3Res"
         jsonFileSubjet =  self.jsonSubJet
@@ -101,7 +106,8 @@ class FatJMECalculator(Module):
         jecLevelSubjet = jecLevel
         ROOT.gROOT.ProcessLine("std::vector<string> jesUnc{}")
         jesUnc = getattr(ROOT, "jesUnc")
-        jesUnc.push_back("Total")
+        for jes_var in jes_unc:
+            jesUnc.push_back(jes_var)
         addHEM      = "false"
         smearingTool= "JERSmear"
         maxDR       = 0.2
