@@ -14,6 +14,7 @@ class FatJMECalculator(Module):
         jsonFile,
         JEC_era,
         JER_era,
+        jes_unc,
 		jsonFileSmearingTool,
         jet_object,
         jsonFileSubjet,
@@ -34,6 +35,8 @@ class FatJMECalculator(Module):
             FatJet JEC era to use
         JER_era : str
             FatJet JER era to use
+        JER_era : list
+            list of JER uncertainties
         jsonFileSmearingTool : str
             path to json file to smearing tool
         jet_object : str
@@ -59,6 +62,7 @@ class FatJMECalculator(Module):
         self.JEC_era_subjet = JEC_era_subjet
         self.jsonFileSmearingTool = jsonFileSmearingTool
         self.jet_object = jet_object
+        self.jes_unc = jes_unc
         self.subjet_object = subjet_object
         self.do_JER = do_JER
         self.store_nominal = store_nominal
@@ -92,7 +96,8 @@ class FatJMECalculator(Module):
         jsonFile 	= self.json
         jetAlgo 	= self.jet_object
         jecTag  	= self.JEC_era
-        jerTag 		= self.JER_era
+        jerTag 		= ""
+        jes_unc     = self.jes_unc
         jsonFileSmearingTool = self.jsonFileSmearingTool
         jecLevel    = "L1L2L3Res"
         jsonFileSubjet =  self.jsonSubJet
@@ -101,7 +106,8 @@ class FatJMECalculator(Module):
         jecLevelSubjet = jecLevel
         ROOT.gROOT.ProcessLine("std::vector<string> jesUnc{}")
         jesUnc = getattr(ROOT, "jesUnc")
-        jesUnc.push_back("Total")
+        for jes_var in jes_unc:
+            jesUnc.push_back(jes_var)
         addHEM      = "false"
         smearingTool= "JERSmear"
         maxDR       = 0.2
@@ -162,6 +168,7 @@ class FatJMECalculator(Module):
         if self.store_nominal:
             df = df.Define("CleanFatJet_pt", "jetVars.pt(0)")
             df = df.Define("CleanFatJet_mass", "jetVars.mass(0)")
+            df = df.Define("CleanFatJet_msoftdrop", "jetVars.msoftdrop(0)")
             df = df.Define(
                 "CleanFatJet_sorting",
                 "ROOT::VecOps::Reverse(ROOT::VecOps::Argsort(CleanFatJet_pt))",
@@ -171,6 +178,7 @@ class FatJMECalculator(Module):
             df = df.Define("CleanFatJet_eta", "Take( CleanFatJet_eta, CleanFatJet_sorting)")
             df = df.Define("CleanFatJet_phi", "Take( CleanFatJet_phi, CleanFatJet_sorting)")
             df = df.Define("CleanFatJet_mass", "Take( CleanFatJet_mass, CleanFatJet_sorting)")
+            df = df.Define("CleanFatJet_msoftdrop", "Take( CleanFatJet_msoftdrop, CleanFatJet_sorting)")
             df = df.Define("CleanFatJet_jetIdx", "Take( CleanFatJet_jetIdx, CleanFatJet_sorting)")
 
         else:
@@ -184,11 +192,14 @@ class FatJMECalculator(Module):
                 variations_pt = []
                 variations_jetIdx = []
                 variations_mass = []
+                variations_msoftdrop = []
                 variations_phi = []
                 variations_eta = []
                 for j, tag in enumerate(["up", "down"]):
                     variation_pt = f"jetVars.pt({2*i+1+j})"
                     variation_mass = f"jetVars.mass({2*i+1+j})"
+                    variation_msoftdrop = f"jetVars.msoftdrop({2*i+1+j})"
+                    
                     df = df.Define(
                         f"tmp_CleanFatJet_pt__JES_{source}_{tag}",
                         variation_pt,
@@ -216,12 +227,20 @@ class FatJMECalculator(Module):
                     )
                     variations_mass.append(f"tmp_CleanFatJet_mass__JES_{source}_{tag}")
 
+                    df = df.Define(
+                        f"tmp_CleanFatJet_msoftdrop__JES_{source}_{tag}",
+                        f"Take({variation_msoftdrop}, tmp_CleanFatJet_pt__JES_{source}_{tag}_sorting)",
+                    )
+                    variations_msoftdrop.append(f"tmp_CleanFatJet_msoftdrop__JES_{source}_{tag}")
+
                     variations_phi.append(
                         f"Take({JetColl}_phi, tmp_CleanFatJet_pt__JES_{source}_{tag}_sorting)"
                     )
                     variations_eta.append(
                         f"Take({JetColl}_eta, tmp_CleanFatJet_pt__JES_{source}_{tag}_sorting)"
                     )
+
+
 
                 tags = ["up", "do"]
                 df = df.Vary(
@@ -266,6 +285,15 @@ class FatJMECalculator(Module):
                     "CleanFatJet_eta",
                     "ROOT::RVec<ROOT::RVecF>{" + variations_eta[0]
                     + ", " + variations_eta[1]
+                    + "}",
+                    tags,
+                    source,
+                )
+
+                df = df.Vary(
+                    "CleanFatJet_msoftdrop",
+                    "ROOT::RVec<ROOT::RVecF>{" + variations_msoftdrop[0]
+                    + ", " + variations_msoftdrop[1]
                     + "}",
                     tags,
                     source,

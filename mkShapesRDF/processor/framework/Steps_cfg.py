@@ -168,9 +168,7 @@ Steps = {
         "do4Data": False,
         "import": "mkShapesRDF.processor.modules.FatJMECalculatorRun3",
         #"declare": 'fatjmeCalculator = lambda : FatJMECalculator("RPLME_FW/processor/data/jsonpog-integration/POG/JME/2022_Summer22EE/fatJet_jerc.json.gz", "Summer22EE_22Sep2023_V2_MC", "Summer22EE_22Sep2023_JRV1_MC", "RPLME_FW/processor/data/jsonpog-integration/POG/JME/jer_smear.json.gz", "AK8PFPuppi", "RPLME_FW/processor/data/jsonpog-integration/POG/JME/2022_Summer22EE/jet_jerc.json.gz","Summer22EE_22Sep2023_V2_MC", "AK4PFPuppi",  do_JER=True, store_nominal=True, store_variations=True)',
-        "declare": 'fatjmeCalculator = lambda : FatJMECalculator("RPLME_FW/processor/data/jsonpog-integration/POG/JME/2023_Summer23BPix/fatJet_jerc.json.gz", "Summer23BPixPrompt23_V1_MC", "Summer23BPixPrompt23_RunD_JRV1_MC", "RPLME_FW/processor/data/jsonpog-integration/POG/JME/jer_smear.json.gz", "AK8PFPuppi", "RPLME_FW/processor/data/jsonpog-integration/POG/JME/2023_Summer23BPix/jet_jerc.json.gz","Summer23BPixPrompt23_V1_MC", "AK4PFPuppi",  do_JER=True, store_nominal=True, store_variations=True)',
-        "module": "fatjmeCalculator()",
-    },
+        "declare": 'fatjmeCalculator = lambda : FatJMECalculator("RPLME_FW/processor/data/jsonpog-integration/POG/JME/2023_Summer23BPix/fatJet_jerc.json.gz", "Summer23BPixPrompt23_V1_MC", "Summer23BPixPrompt23_RunD_JRV1_MC", ["RelativeStatHF", "Total"], "RPLME_FW/processor/data/jsonpog-integration/POG/JME/jer_smear.json.gz", "AK8PFPuppi", "RPLME_FW/processor/data/jsonpog-integration/POG/JME/2023_Summer23BPix/jet_jerc.json.gz","Summer23BPixPrompt23_V1_MC", "AK4PFPuppi", do_JER=True, store_nominal=True, store_variations=True)',    },
     "PromptParticlesGenVars": {
         "isChain": False,
         "do4MC": True,
