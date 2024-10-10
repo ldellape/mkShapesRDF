@@ -15,7 +15,7 @@ class FatJMECalculator(Module):
         JEC_era,
         JER_era,
         jes_unc,
-		jsonFileSmearingTool,
+	jsonFileSmearingTool,
         jet_object,
         jsonFileSubjet,
         JEC_era_subjet,
