@@ -6,7 +6,7 @@ from mkShapesRDF.processor.framework.module import Module
 
 class FatJMECalculator(Module):
     """
-    This module calculates the JES/JER for jets and MET objects and stores the nominal values and the variations (up/down) in the output tree.
+    This module calculates the JES/JER for fatjet objects and stores the nominal values and the variations (up/down) in the output tree.
     """
 
     def __init__(
