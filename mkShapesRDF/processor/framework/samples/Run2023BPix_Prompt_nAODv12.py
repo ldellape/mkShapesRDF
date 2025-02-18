@@ -9,7 +9,7 @@ Samples["Muon0_Run2023D-Prompt-v2"] = {
 }
 Samples["Muon1_Run2023D-Prompt-v1"] = {
     "nanoAOD": '/Muon1/Run2023D-22Sep2023_v1-v1/NANOAOD'
-}i
+}
 Samples["Muon1_Run2023D-Prompt-v2"] = {
     "nanoAOD": '/Muon1/Run2023D-22Sep2023_v2-v1/NANOAOD'
 }
