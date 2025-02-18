@@ -8,7 +8,7 @@ import tabulate
 
 #: condorDir is the path to use for condor submission, user might want to change it -> edit ``mkPostProc.py``
 condorDir = (
-    "/".join(os.path.abspath(os.path.dirname(__file__)).split("/")[:-1]) + "/condor"
+    "/".join(os.path.abspath(os.path.dirname(__file__)).split("/")[:-1]) 
 )
 
 #: eosDir is the path to use for eos submission, user might want to change it -> edit ``mkPostProc.py``
@@ -16,7 +16,7 @@ condorDir = (
 eosDir = "/eos/user/l/ldellape/VBS/VBS_cards/privateMCproduction/"
 
 #: defaultRedirector is the redirector used to access files if the option ``--useRedirector 1`` is used, user might want to change it -> edit ``mkPostProc.py``
-defaultRedirector = "root://cms-xrd-global.cern.ch/"
+defaultRedirector = "root://eosuser.cern.ch/"
 # defaultRedirector = "root://xrootd-cms.infn.it/"
 
 
